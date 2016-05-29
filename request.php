@@ -1,4 +1,4 @@
-	<?php 
+<?php 
 	require_once 'classes/recaptcha.php';
 	require_once 'classes/jsonRPCClient.php';
 	require_once 'config.php';
@@ -11,7 +11,7 @@
 		$range = $max-$min; 
 		$num = $min + $range * mt_rand(0, 32767)/32767; 
 
-		$num = round($num, 8); 
+		$num = round($num, 12); 
 
 		return ((float) $num); 
 	} 
@@ -21,6 +21,9 @@
 	$recaptcha = new Recaptcha($keys);
 	if($recaptcha->set()) {
 		if($recaptcha->verify($_POST['g-recaptcha-response'])){
+			
+			
+
 	  	//Checking address and payment ID characters
 			$wallet = $str = trim(preg_replace('/[^a-zA-Z0-9]/', '', $_POST['wallet']));
 			$paymentidPost = $str = trim(preg_replace('/[^a-zA-Z0-9]/', '', $_POST['paymentid']));
@@ -61,12 +64,12 @@
 				exit();
 			}
 
-			$bitcoin = new jsonRPCClient('http://127.0.0.1:8070/json_rpc');
+			$bitcoin = new jsonRPCClient('http://127.0.0.1:32344/json_rpc');
 			$balance = $bitcoin->getbalance();
 			$balanceDisponible = $balance['available_balance'];
-			$transactionFee = 1000000;
-			$dividirEntre = 100000000;
-			$hasta = number_format(round($balanceDisponible/$dividirEntre,8),2,'.', '');
+			$transactionFee = 100000000;
+			$dividirEntre = 1000000000000;
+			$hasta = number_format(round($balanceDisponible/$dividirEntre,12),2,'.', '');
 
 			if($hasta > $maxReward){
 				$hasta = $maxReward;
@@ -88,7 +91,7 @@
 				"destinations" => $destination,
 				"payment_id"=> $paymentID, 
 				"fee" => $transactionFee, 
-				"mixin"=>6, 
+				"mixin"=>1, // need to increase mixin later
 				"unlock_time" => 0
 				);
 				//print_r($peticion);

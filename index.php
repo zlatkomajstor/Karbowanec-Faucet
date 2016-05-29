@@ -5,7 +5,7 @@ require_once 'classes/recaptcha.php';
 require_once 'config.php';
 
 ?><!DOCTYPE html>
-<html >
+<html>
 <head>
   <meta charset="UTF-8">
   <title><?php echo $faucetTitle; ?></title>
@@ -34,30 +34,33 @@ require_once 'config.php';
 
     <div id="login-form">
 
-      <h3><a href="./"><img src="<?php echo $logo; ?>" height="100"></a><br><?php echo $faucetSubtitle; ?></h3>
+	  
+	  <h3><a href="./"><img src="<?php echo $logo; ?>" height="256"></a><br /><br /> <?php echo $faucetSubtitle; ?></h3>
+	  
+	  
       <fieldset>
 
         <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
-        <a href="https://hashflare.io/r/69295B0A-ads"><img src="https://hashflare.io/banners/468x60-eng-2.jpg" alt="HashFlare"></a>
+        <?php // <a href="https://hashflare.io/r/69295B0A-ads"><img src="https://hashflare.io/banners/468x60-eng-2.jpg" alt="HashFlare"></a> ?>
         <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
 
-        <br>
+        <br />
 
 
           <?php                  
 
-        $bitcoin = new jsonRPCClient('http://127.0.0.1:8070/json_rpc');
+        $bitcoin = new jsonRPCClient('http://127.0.0.1:32344/json_rpc');
 
         $balance = $bitcoin->getbalance();
         $balanceDisponible = $balance['available_balance'];
         $lockedBalance = $balance['locked_amount'];
-        $dividirEntre = 100000000;
+        $dividirEntre = 1000000000000;
         $totalBCN =  ($balanceDisponible+$lockedBalance)/$dividirEntre;
         
 
         $recaptcha = new Recaptcha($keys);
         //Available Balance
-        $balanceDisponibleFaucet = number_format(round($balanceDisponible/$dividirEntre,8),8,'.', '');
+        $balanceDisponibleFaucet = number_format(round($balanceDisponible/$dividirEntre,12),12,'.', '');
         ?>
 
         <form action="request.php" method="POST">
@@ -67,35 +70,35 @@ require_once 'config.php';
 
             if($mensaje == "captcha"){?>
             <div  id="alert" class="alert alert-error radius">
-              Incorrect Captcha, please answer correctly.
+              Неправильна Captcha, введіть правильну.
             </div>
             <?php }else if($mensaje == "wallet"){ ?>
 
             <div id="alert" class="alert alert-error radius">
-              Please enter a valid Bytecoin Wallet.
+              Введіть правильну адресу карбованців.
             </div>
             <?php }else if($mensaje == "success"){ ?>
 
             <div class="alert alert-success radius">
-              You have been awarded with <?php echo $_GET['amount']; ?> BCN.<br/><br/>
-              You will receive <?php echo $_GET['amount']-0.01; ?> BCN (Fee 0.01)<br/>
-              <a target="_blank" href="http://chainradar.com/bcn/transaction/<?php echo $_GET['txid']; ?>">See it on the blockchain.</a>
+              Ви виграли <?php echo $_GET['amount']; ?> крб.<br/><br/>
+              Ви отримаєте <?php echo $_GET['amount']-0.0001; ?> крб. (Комісія мережі 0.0001)<br/>
+              <a target="_blank" href="http://52.21.253.162/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">Перевірте у блокчейні.</a>
             </div>
             <?php }else if($mensaje == "paymentID"){ ?>
 
             <div id="alert" class="alert alert-error radius">
-              Please check again your payment ID. <br>It should have 64 characters with no special chars.
+              Перевірте ваш payment ID. <br>Він повинен складатись з 64 знаків без спецсимволів.
             </div>
             <?php }else if($mensaje == "notYet"){ ?>
 
             <div id="alert" class="alert alert-warning radius">
-              You requested a reward less than 12 hours ago.
+              Карбованці видаються раз на 12 годин. Зайдіть пізніше.
             </div>
             <?php } ?>
 
             <?php } ?>
             <div class="alert alert-info radius">
-              Available Balance: <?php echo $balanceDisponibleFaucet ?> BCN<br>
+              У нас є: <?php echo $balanceDisponibleFaucet ?> крб.<br>
               <?php
 
               $link = mysqli_connect($hostDB, $userDB, $passwordDB, $database);
@@ -115,19 +118,19 @@ require_once 'config.php';
               mysqli_close($link);
               ?>
 
-              Already paid: <?php echo $dato[0]/$dividirEntre; ?> BCN with <?php echo $dato2[0];?> total payouts.
+              Ми вже виплатили: <?php echo $dato[0]/$dividirEntre; ?> крб. за <?php echo $dato2[0];?> виплат.
             </div>
 
             <?php if($balanceDisponibleFaucet<6.1){ ?>
             <div class="alert alert-warning radius">
-             Faucet is empty or balance is lower than reward. <br> Wait for a reload or donation.
+             Кран порожній або баланс менший ніж виграш. <br> Зайдіть пізніше, &ndash; може хтось пожертвує нам трохи карбованців.
            </div>
 
            <?php }else{?>
 
-           <input type="text" name="wallet" required placeholder="Bytecoin Wallet">
+           <input type="text" name="wallet" required placeholder="Адреса карбованців">
 
-           <input type="text" name="paymentid" placeholder="Payment ID (Optional)" >
+           <input type="text" name="paymentid" placeholder="Payment ID (Необов'язково)" >
            <br/>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <iframe data-aa='74112' src='https://ad.a-ads.com/74112?size=468x60' scrolling='no' style='width:468px; height:60px; border:0px; padding:0;overflow:hidden' allowtransparency='true' frameborder='0'></iframe>
@@ -137,13 +140,14 @@ require_once 'config.php';
            echo $recaptcha->render();     
            ?>
 
-           <center><input type="submit" value="Give me my BCN!"></center>
+           <center><input type="submit" value="Отримати безкоштовні карбованці!"></center>
            <br>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <iframe scrolling="no" frameborder="0" style="overflow:hidden;width:468px;height:60px;" src="//bee-ads.com/ad.php?id=6534"></iframe>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <?php } ?>
            <br>
+		     <?php /*
            <div class="table-responsive">
             <table class="table table-bordered table-condensed">
               <thead>
@@ -161,15 +165,15 @@ require_once 'config.php';
               </tbody>
             </table>
           </div>
-
+*/?>
 
           <div class="table-responsive">
-            <h6><b>Last 5 Refill/Donations</b></h6>
+            <h6><b>Останні 5 поповнень</b></h6>
             <table class="table table-bordered table-condensed">
               <thead>
                 <tr>
-                  <th>Date</th>
-                  <th>Amount</th>
+                  <th>Дата</th>
+                  <th>Сума</th>
                 </tr>
               </thead>
               <tbody>
@@ -196,7 +200,7 @@ require_once 'config.php';
               </tbody>
             </table>
           </div>
-          <p style="font-size:10px;">Please consider donating to keep the faucet alive. <br>Address: <?php echo $faucetAddress; ?><br>&#169; 2015 Faucet by Ratnet</p></center>
+          <p style="font-size:10px;">Пожертвуйте карбованці для підтримки цього крану. <br>Адреса: <?php echo $faucetAddress; ?><br>&#169; 2015 Faucet by Ratnet</p></center>
           <footer class="clearfix">
           </footer>
         </form>
