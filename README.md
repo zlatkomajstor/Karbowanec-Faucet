@@ -1,12 +1,10 @@
-# Bytecoin-Faucet
+# Karbowanec-Faucet
 
-This is a PHP and MYSQL Faucet for Bytecoin Crypto Currency.
+This is a PHP and MYSQL Faucet for Karbowanec Crypto Currency forked from Bytecoin faucet by Ratnet.
 
-Demo: https://freebytecoin.cf/
 
-You can visit the topic on Bytecoin official forum.
 
-https://bytecointalk.org/showthread.php?tid=72
+
 
 ![Alt text](https://freebytecoin.cf/made-in-mexico.jpg?raw=true "Made in Mexico")
 
