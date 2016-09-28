@@ -11,7 +11,7 @@
 		$range = $max-$min; 
 		$num = $min + $range * mt_rand(0, 32767)/32767; 
 
-		$num = round($num, 12); 
+		$num = round($num, 3); 
 
 		return ((float) $num); 
 	} 
@@ -64,7 +64,7 @@
 				exit();
 			}
 
-			$bitcoin = new jsonRPCClient('http://127.0.0.1:32344/json_rpc');
+			$bitcoin = new jsonRPCClient('http://127.0.0.1:32323/json_rpc');
 			$balance = $bitcoin->getbalance();
 			$balanceDisponible = $balance['available_balance'];
 			$transactionFee = 100000000;

@@ -17,17 +17,17 @@ Bytecoin: 24gKv1yqZ2oZ7Ln4KWcL3q7D7CXibndxhDzLvrJxxw1x7tiaQ5euuduT9EkHzDta144vmw
 */
 
 $faucetTitle = "Кран карбованців";
-$faucetSubtitle = "Кожні 12 год. можна отримати карбованці задарма";
+$faucetSubtitle = "Кожні 12 год. можна отримати безкоштовні карбованці";
 $logo = "images/krbcoin.png";
 
 //Faucet address for donations
-$faucetAddress = "";
+$faucetAddress = "KcCLKjdXWW6bpSYg9AsMXz1aQmVhyfXL17p8bS13k6A1CwPtqJ5VNWD34oHmtPV4gy4GgE2Ej6oCcApvgMbivvgiNpJNjpR";
 
 //Reward time in hours
-$rewardEvery = "1";
+$rewardEvery = "12";
 //Max reward and min reward as decimals Ex: Min = 10.0 & Max = 20.0
 $minReward = "0.01"; //Remember that the minimum for an eobot deposit is 5 BCN as reward.
-$maxReward = "0.5"; 
+$maxReward = "0.3"; 
 //Transaction fee is set to 0.01 BCN for every request.
 
 
@@ -36,7 +36,7 @@ $maxReward = "0.5";
 $userDB = "";
 $database = "";
 $passwordDB = "";
-$hostDB = "";
+$hostDB = "127.0.0.1";
 
 
 //Recaptcha Keys. You can get yours here: https://www.google.com/recaptcha/

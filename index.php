@@ -10,9 +10,8 @@ require_once 'config.php';
   <meta charset="UTF-8">
   <title><?php echo $faucetTitle; ?></title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
-
+  <link rel="shortcut icon" href="images/favicon.ico">
+  <link rel="icon" type="image/icon" href="images/favicon.ico" >
 
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
   <link rel="stylesheet" href="css/style.css">
@@ -25,6 +24,16 @@ require_once 'config.php';
   }
   </script>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-78493281-2', 'auto');
+  ga('send', 'pageview');
+
+</script>
 
 </head>
 
@@ -41,15 +50,16 @@ require_once 'config.php';
       <fieldset>
 
         <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
-        <?php // <a href="https://hashflare.io/r/69295B0A-ads"><img src="https://hashflare.io/banners/468x60-eng-2.jpg" alt="HashFlare"></a> ?>
+        <iframe data-aa='195916' src='https://ad.a-ads.com/195916?size=728x90' scrolling='no' style='width:728px; height:90px; border:0px; padding:0;overflow:hidden' allowtransparency='true' frameborder='0'></iframe>
         <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
 
         <br />
 
+		
 
           <?php                  
 
-        $bitcoin = new jsonRPCClient('http://127.0.0.1:32344/json_rpc');
+        $bitcoin = new jsonRPCClient('http://127.0.0.1:32323/json_rpc');
 
         $balance = $bitcoin->getbalance();
         $balanceDisponible = $balance['available_balance'];
@@ -82,7 +92,7 @@ require_once 'config.php';
             <div class="alert alert-success radius">
               Ви виграли <?php echo $_GET['amount']; ?> крб.<br/><br/>
               Ви отримаєте <?php echo $_GET['amount']-0.0001; ?> крб. (Комісія мережі 0.0001)<br/>
-              <a target="_blank" href="http://52.21.253.162/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">Перевірте у блокчейні.</a>
+              <a target="_blank" href="http://explorer.karbowanec.com/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">Перевірте у блокчейні.</a>
             </div>
             <?php }else if($mensaje == "paymentID"){ ?>
 
@@ -98,7 +108,7 @@ require_once 'config.php';
 
             <?php } ?>
             <div class="alert alert-info radius">
-              У нас є: <?php echo $balanceDisponibleFaucet ?> крб.<br>
+              Баланс: <?php echo $balanceDisponibleFaucet ?> крб.<br>
               <?php
 
               $link = mysqli_connect($hostDB, $userDB, $passwordDB, $database);
@@ -118,22 +128,30 @@ require_once 'config.php';
               mysqli_close($link);
               ?>
 
-              Ми вже виплатили: <?php echo $dato[0]/$dividirEntre; ?> крб. за <?php echo $dato2[0];?> виплат.
+              Роздано: <?php echo $dato[0]/$dividirEntre; ?> крб. за <?php echo $dato2[0];?> виплат(и).
             </div>
 
-            <?php if($balanceDisponibleFaucet<6.1){ ?>
+            <?php if($balanceDisponibleFaucet<1.0){ ?>
             <div class="alert alert-warning radius">
              Кран порожній або баланс менший ніж виграш. <br> Зайдіть пізніше, &ndash; може хтось пожертвує нам трохи карбованців.
            </div>
 
-           <?php }else{?>
+           <?php } elseif (!$link) {
+		   
+		  // $link = mysqli_connect($hostDB, $userDB, $passwordDB, $database);
+
+			 
+					die('Помилка піключення' . mysql_error());
+				}  else {  ?>
 
            <input type="text" name="wallet" required placeholder="Адреса карбованців">
 
            <input type="text" name="paymentid" placeholder="Payment ID (Необов'язково)" >
            <br/>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
-           <iframe data-aa='74112' src='https://ad.a-ads.com/74112?size=468x60' scrolling='no' style='width:468px; height:60px; border:0px; padding:0;overflow:hidden' allowtransparency='true' frameborder='0'></iframe>
+           
+		   <iframe scrolling="no" frameborder="0" style="overflow:hidden;width:728px;height:90px;" src="//bee-ads.com/ad.php?id=19427"></iframe>
+		   
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <br/>
            <?php 
@@ -143,7 +161,7 @@ require_once 'config.php';
            <center><input type="submit" value="Отримати безкоштовні карбованці!"></center>
            <br>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
-           <iframe scrolling="no" frameborder="0" style="overflow:hidden;width:468px;height:60px;" src="//bee-ads.com/ad.php?id=6534"></iframe>
+           <!--iframe scrolling="no" frameborder="0" style="overflow:hidden;width:468px;height:60px;" src="//bee-ads.com/ad.php?id=6534"></iframe-->
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <?php } ?>
            <br>
