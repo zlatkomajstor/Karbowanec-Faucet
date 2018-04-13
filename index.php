@@ -19,7 +19,7 @@ require_once 'config.php';
   <script>var isAdBlockActive=true;</script>
   <script src="js/advertisement.js"></script>
   <script>
-  if (isAdBlockActive) { 
+  if (isAdBlockActive) {
     window.location = "./adblocker.php"
   }
   </script>
@@ -43,72 +43,72 @@ require_once 'config.php';
 
     <div id="login-form">
 
-	  
+
 	  <h3><a href="./"><img src="<?php echo $logo; ?>" height="256"></a><br /><br /> <?php echo $faucetSubtitle; ?></h3>
-	  
-	  
+
+
       <fieldset>
 
         <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
-        <iframe data-aa='195916' src='https://ad.a-ads.com/195916?size=728x90' scrolling='no' style='width:728px; height:90px; border:0px; padding:0;overflow:hidden' allowtransparency='true' frameborder='0'></iframe>
+        <!-- <iframe data-aa='195916' src='https://ad.a-ads.com/195916?size=728x90' scrolling='no' style='width:728px; height:90px; border:0px; padding:0;overflow:hidden' allowtransparency='true' frameborder='0'></iframe> -->
         <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
 
         <br />
 
-		
 
-          <?php                  
 
-        $bitcoin = new jsonRPCClient('http://127.0.0.1:32323/json_rpc');
+          <?php
+
+        $bitcoin = new jsonRPCClient('http://127.0.0.1:8100/json_rpc');
 
         $balance = $bitcoin->getbalance();
         $balanceDisponible = $balance['available_balance'];
         $lockedBalance = $balance['locked_amount'];
-        $dividirEntre = 1000000000000;
+        $dividirEntre = 100000000;
         $totalBCN =  ($balanceDisponible+$lockedBalance)/$dividirEntre;
-        
+
 
         $recaptcha = new Recaptcha($keys);
         //Available Balance
-        $balanceDisponibleFaucet = number_format(round($balanceDisponible/$dividirEntre,12),12,'.', '');
+        $balanceDisponibleFaucet = number_format(round($balanceDisponible/$dividirEntre,8),8,'.', '');
         ?>
 
         <form action="request.php" method="POST">
 
           <?php if(isset($_GET['msg'])){
-            $mensaje = $_GET['msg']; 
+            $mensaje = $_GET['msg'];
 
             if($mensaje == "captcha"){?>
             <div  id="alert" class="alert alert-error radius">
-              Неправильна Captcha, введіть правильну.
+              Incorrect Captcha, please answer correctly.
             </div>
             <?php }else if($mensaje == "wallet"){ ?>
 
             <div id="alert" class="alert alert-error radius">
-              Введіть правильну адресу карбованців.
+              Please enter a valid Balkancoin Wallet.
             </div>
             <?php }else if($mensaje == "success"){ ?>
 
             <div class="alert alert-success radius">
-              Ви виграли <?php echo $_GET['amount']; ?> крб.<br/><br/>
-              Ви отримаєте <?php echo $_GET['amount']-0.0001; ?> крб. (Комісія мережі 0.0001)<br/>
-              <a target="_blank" href="http://explorer.karbowanec.com/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">Перевірте у блокчейні.</a>
+              You have been awarded with <?php echo $_GET['amount']; ?> BKC.<br/><br/>
+              You will receive <?php echo $_GET['amount']-0.001; ?> BKC (Fee 0.001)<br/>
+              <a target="_blank" href="http://explorer2.balkancoin.org/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">See it on the blockchain.</a>
             </div>
             <?php }else if($mensaje == "paymentID"){ ?>
 
             <div id="alert" class="alert alert-error radius">
-              Перевірте ваш payment ID. <br>Він повинен складатись з 64 знаків без спецсимволів.
+              Please check again your payment ID. <br>It should have 64 characters with no special chars.
             </div>
             <?php }else if($mensaje == "notYet"){ ?>
 
             <div id="alert" class="alert alert-warning radius">
-              Карбованці видаються раз на 12 годин. Зайдіть пізніше.
+              You requested a reward less than 12 hours ago.
             </div>
             <?php } ?>
 
             <?php } ?>
             <div class="alert alert-info radius">
-              Баланс: <?php echo $balanceDisponibleFaucet ?> крб.<br>
+              Available Balance: <?php echo $balanceDisponibleFaucet ?> BKC.<br>
               <?php
 
               $link = mysqli_connect($hostDB, $userDB, $passwordDB, $database);
@@ -128,37 +128,38 @@ require_once 'config.php';
               mysqli_close($link);
               ?>
 
-              Роздано: <?php echo $dato[0]/$dividirEntre; ?> крб. за <?php echo $dato2[0];?> виплат(и).
+              Already paid: <?php echo $dato[0]/$dividirEntre; ?> BCKC with <?php echo $dato2[0];?> total payouts.<br>
+              Be sure not to use address from exchange because you will never get the reward!!!
             </div>
 
-            <?php if($balanceDisponibleFaucet<1.0){ ?>
+            <?php if($balanceDisponibleFaucet<50){ ?>
             <div class="alert alert-warning radius">
-             Кран порожній або баланс менший ніж виграш. <br> Зайдіть пізніше, &ndash; може хтось пожертвує нам трохи карбованців.
+             Faucet is empty or balance is lower than reward. <br> Wait for a reload or donation.
            </div>
 
            <?php } elseif (!$link) {
-		   
+
 		  // $link = mysqli_connect($hostDB, $userDB, $passwordDB, $database);
 
-			 
-					die('Помилка піключення' . mysql_error());
+
+					die('Error connecting' . mysql_error());
 				}  else {  ?>
 
-           <input type="text" name="wallet" required placeholder="Адреса карбованців">
+           <input type="text" name="wallet" required placeholder="Balkancoin Wallet">
 
-           <input type="text" name="paymentid" placeholder="Payment ID (Необов'язково)" >
+           <input type="text" name="paymentid" placeholder="Payment ID (Optional)" >
            <br/>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
-           
-		   <iframe scrolling="no" frameborder="0" style="overflow:hidden;width:728px;height:90px;" src="//bee-ads.com/ad.php?id=19427"></iframe>
-		   
+
+		       <!-- iframe scrolling="no" frameborder="0" style="overflow:hidden;width:728px;height:90px;" src="//bee-ads.com/ad.php?id=19427"></iframe> -->
+
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <br/>
-           <?php 
-           echo $recaptcha->render();     
+           <?php
+           echo $recaptcha->render();
            ?>
 
-           <center><input type="submit" value="Отримати безкоштовні карбованці!"></center>
+           <center><input type="submit" value="Give me my BKC!"></center>
            <br>
            <!-- ADS ADS ADS ADS ADS ADS ADS ADS ADS -->
            <!--iframe scrolling="no" frameborder="0" style="overflow:hidden;width:468px;height:60px;" src="//bee-ads.com/ad.php?id=6534"></iframe-->
@@ -186,16 +187,16 @@ require_once 'config.php';
 */?>
 
           <div class="table-responsive">
-            <h6><b>Останні 5 поповнень</b></h6>
+            <h6><b>Last 5 Refill/Donations</b></h6>
             <table class="table table-bordered table-condensed">
               <thead>
                 <tr>
-                  <th>Дата</th>
-                  <th>Сума</th>
+                  <th>Date</th>
+                  <th>Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <?php 
+                <?php
                 $deposits = ($bitcoin->get_transfers());
 
                 $transfers = array_reverse(($deposits["transfers"]),true);
@@ -218,7 +219,7 @@ require_once 'config.php';
               </tbody>
             </table>
           </div>
-          <p style="font-size:10px;">Пожертвуйте карбованці для підтримки цього крану. <br>Адреса: <?php echo $faucetAddress; ?><br>&#169; 2015 Faucet by Ratnet</p></center>
+          <p style="font-size:10px;">Please consider donating to keep the faucet alive. <br>Address: <?php echo $faucetAddress; ?><br>&#169; 2015 Faucet by Ratnet</p></center>
           <footer class="clearfix">
           </footer>
         </form>
@@ -233,7 +234,7 @@ require_once 'config.php';
   <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
   <?php if(isset($_GET['msg'])) { ?>
   <script>
-  setTimeout( function(){ 
+  setTimeout( function(){
     $( "#alert" ).fadeOut(3000, function() {
     });
   }  , 10000 );

@@ -16,18 +16,18 @@ Bytecoin: 24gKv1yqZ2oZ7Ln4KWcL3q7D7CXibndxhDzLvrJxxw1x7tiaQ5euuduT9EkHzDta144vmw
 
 */
 
-$faucetTitle = "Кран карбованців";
-$faucetSubtitle = "Кожні 12 год. можна отримати безкоштовні карбованці";
-$logo = "images/krbcoin.png";
+$faucetTitle = "Balkancoin [BKC] Faucet";
+$faucetSubtitle = "Earn up to 50 BKC every 12 hours.";
+$logo = "images/balkancoin.png";
 
 //Faucet address for donations
-$faucetAddress = "KcCLKjdXWW6bpSYg9AsMXz1aQmVhyfXL17p8bS13k6A1CwPtqJ5VNWD34oHmtPV4gy4GgE2Ej6oCcApvgMbivvgiNpJNjpR";
+$faucetAddress = "";
 
 //Reward time in hours
 $rewardEvery = "12";
 //Max reward and min reward as decimals Ex: Min = 10.0 & Max = 20.0
-$minReward = "0.01"; //Remember that the minimum for an eobot deposit is 5 BCN as reward.
-$maxReward = "0.3"; 
+$minReward = "5.0"; //Remember that the minimum for an eobot deposit is 5 BCN as reward.
+$maxReward = "50.0";
 //Transaction fee is set to 0.01 BCN for every request.
 
 

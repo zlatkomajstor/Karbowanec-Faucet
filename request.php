@@ -1,4 +1,4 @@
-<?php 
+<?php
 	require_once 'classes/recaptcha.php';
 	require_once 'classes/jsonRPCClient.php';
 	require_once 'config.php';
@@ -6,23 +6,23 @@
 
 	$link = mysqli_connect($hostDB, $userDB, $passwordDB, $database);
 
-	function GetRandomValue($min, $max) 
-	{ 
-		$range = $max-$min; 
-		$num = $min + $range * mt_rand(0, 32767)/32767; 
+	function GetRandomValue($min, $max)
+	{
+		$range = $max-$min;
+		$num = $min + $range * mt_rand(0, 32767)/32767;
 
-		$num = round($num, 3); 
+		$num = round($num, 3);
 
-		return ((float) $num); 
-	} 
+		return ((float) $num);
+	}
 
 
 	//Instantiate the Recaptcha class as $recaptcha
 	$recaptcha = new Recaptcha($keys);
 	if($recaptcha->set()) {
 		if($recaptcha->verify($_POST['g-recaptcha-response'])){
-			
-			
+
+
 
 	  	//Checking address and payment ID characters
 			$wallet = $str = trim(preg_replace('/[^a-zA-Z0-9]/', '', $_POST['wallet']));
@@ -49,7 +49,7 @@
 			}
 
 				//Looking for cleared address or not
-			$clave = array_search($wallet, $clearedAddresses); 
+			$clave = array_search($wallet, $clearedAddresses);
 
 			if(empty($clave))
 			{
@@ -64,23 +64,23 @@
 				exit();
 			}
 
-			$bitcoin = new jsonRPCClient('http://127.0.0.1:32323/json_rpc');
+			$bitcoin = new jsonRPCClient('http://127.0.0.1:8100/json_rpc');
 			$balance = $bitcoin->getbalance();
 			$balanceDisponible = $balance['available_balance'];
-			$transactionFee = 100000000;
-			$dividirEntre = 1000000000000;
-			$hasta = number_format(round($balanceDisponible/$dividirEntre,12),2,'.', '');
+			$transactionFee = 100000;
+			$dividirEntre = 100000000;
+			$hasta = number_format(round($balanceDisponible/$dividirEntre,8),2,'.', '');
 
 			if($hasta > $maxReward){
 				$hasta = $maxReward;
 			}
-			if($hasta < $minReward+0.1){ 
+			if($hasta < $minReward+0.001){
 				header("Location: ./?msg=dry");
 				exit();
-			} 
+			}
 
 			$aleatorio = GetRandomValue($minReward,$hasta);
-			
+
 			$cantidadEnviar = ($aleatorio*$dividirEntre)-$transactionFee;
 
 
@@ -89,8 +89,8 @@
 			$timestampUnix = $date->getTimestamp()+5;
 			$peticion = array(
 				"destinations" => $destination,
-				"payment_id"=> $paymentID, 
-				"fee" => $transactionFee, 
+				"payment_id"=> $paymentID,
+				"fee" => $transactionFee,
 				"mixin"=>1, // need to increase mixin later
 				"unlock_time" => 0
 				);
