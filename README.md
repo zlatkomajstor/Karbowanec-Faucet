@@ -1,6 +1,6 @@
-# Karbowanec-Faucet
+# balkancoin-faucet
 
-This is a PHP and MYSQL Faucet for Karbowanec Crypto Currency forked from Bytecoin faucet by Ratnet.
+This is a PHP and MYSQL Faucet for Balkancoin Crypto Currency forked from Bytecoin faucet by Ratnet.
 
 
 
