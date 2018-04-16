@@ -128,7 +128,7 @@ require_once 'config.php';
               mysqli_close($link);
               ?>
 
-              Already paid: <?php echo $dato[0]/$dividirEntre; ?> BCKC with <?php echo $dato2[0];?> total payouts.<br>
+              Already paid: <?php echo $dato[0]/$dividirEntre; ?> BKC with <?php echo $dato2[0];?> total payouts.<br>
               Be sure not to use address from exchange because you will never get the reward!!!
             </div>
 
