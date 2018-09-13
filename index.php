@@ -91,7 +91,7 @@ require_once 'config.php';
 
             <div class="alert alert-success radius">
               You have been awarded with <?php echo $_GET['amount']; ?> BKC.<br/><br/>
-              You will receive <?php echo $_GET['amount']-0.001; ?> BKC (Fee 0.001)<br/>
+              You will receive <?php echo $_GET['amount']-0.1; ?> BKC (Fee 0.1)<br/>
               <a target="_blank" href="http://explorer2.balkancoin.org/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">See it on the blockchain.</a>
             </div>
             <?php }else if($mensaje == "paymentID"){ ?>
