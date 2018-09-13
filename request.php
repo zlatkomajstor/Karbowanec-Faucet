@@ -67,7 +67,7 @@
 			$bitcoin = new jsonRPCClient('http://127.0.0.1:8100/json_rpc');
 			$balance = $bitcoin->getbalance();
 			$balanceDisponible = $balance['available_balance'];
-			$transactionFee = 100000;
+			$transactionFee = 10000000;
 			$dividirEntre = 100000000;
 			$hasta = number_format(round($balanceDisponible/$dividirEntre,8),2,'.', '');
 
