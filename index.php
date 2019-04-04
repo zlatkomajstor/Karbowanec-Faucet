@@ -24,17 +24,6 @@ require_once 'config.php';
   }
   </script>
 
-<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-78493281-2', 'auto');
-  ga('send', 'pageview');
-
-</script>
-
 </head>
 
 <body>
@@ -92,7 +81,7 @@ require_once 'config.php';
             <div class="alert alert-success radius">
               You have been awarded with <?php echo $_GET['amount']; ?> BKC.<br/><br/>
               You will receive <?php echo $_GET['amount']-0.1; ?> BKC (Fee 0.1)<br/>
-              <a target="_blank" href="http://explorer2.balkancoin.org/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">See it on the blockchain.</a>
+              <a target="_blank" href="http://explorer.balkancoin.org/?hash=<?php echo $_GET['txid']; ?>#blockchain_transaction">See it on the blockchain.</a>
             </div>
             <?php }else if($mensaje == "paymentID"){ ?>
 
